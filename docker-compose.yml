@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres
+    image: postgres:17.4
     restart: always
     environment:
       POSTGRES_PASSWORD: admin
@@ -9,7 +9,7 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - db_data: /var/lib/postgres/data
+      - db_data:/var/lib/postgresql/data
 
 volumes:
   db_data:
