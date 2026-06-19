@@ -1,9 +1,9 @@
 import express from "express";
-import db from "../db";
-import { usersTable } from "../models/user.model";
+import db from "../db/index.js";
+import { usersTable } from "../models/user.model.js";
 import { eq } from "drizzle-orm";
 import { createHmac, randomBytes } from "crypto";
-import { signupPostRequestBodySchema } from "../validations/request.validation";
+import { signupPostRequestBodySchema } from "../validations/request.validation.js";
 
 const router = express.Router();
 
@@ -16,10 +16,12 @@ router.post("/signup", async (req, res) => {
 
 	const { firstname, lastname, email, password } = validationResult.data;
 
-	const [exitingUser] = db
+	const [exitingUser] = await db
 		.select({ id: usersTable.id })
 		.from(usersTable)
 		.where(eq(usersTable.email, email));
+
+		console.log("_tt exitingUser::",exitingUser)
 
 	if (exitingUser)
 		return res
